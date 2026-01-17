@@ -92,6 +92,7 @@ production:
     username: faultyglue
     password: password123
     host: <%= ENV.fetch("DB_HOST") { "localhost" } %>
+    url: <%= ENV["DATABASE_URL"] %>
     pool: 5
   cable:
     <<: *primary_production
