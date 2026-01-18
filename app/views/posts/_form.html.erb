@@ -1,27 +1,71 @@
-<%= form_with(model: post) do |form| %>
+<!-- /Volumes/Storage/Projects/faultyglue.com/app/views/posts/_form.html.erb -->
+<%= form_with model: post, data: { turbo: false } do |f| %>
   <% if post.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
-      <ul>
-        <% post.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="flash alert">
+      <strong>Fix these:</strong>
+      <%= post.errors.full_messages.to_sentence %>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+  <div class="form-row">
+    <%= f.label :title, "Title" %>
+    <%= f.text_field :title, required: true, autocomplete: "off" %>
   </div>
 
-  <div>
-    <%= form.label :body, style: "display: block" %>
-    <%= form.textarea :body %>
+  <div class="form-row">
+    <%= f.label :slug, "Slug (URL)" %>
+    <%= f.text_field :slug, placeholder: "auto-made-from-title-if-blank", autocomplete: "off" %>
+    <div class="small">Example: <code>/posts/your-slug</code></div>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="tabs">
+    <input type="radio" name="posttabs" id="tab-write" checked>
+    <label for="tab-write">Write</label>
+
+    <input type="radio" name="posttabs" id="tab-seo">
+    <label for="tab-seo">SEO</label>
+
+    <input type="radio" name="posttabs" id="tab-settings">
+    <label for="tab-settings">Settings</label>
+
+    <div class="tab-panels">
+      <section class="tab-panel">
+        <h2>Write</h2>
+        <p class="small">Use the toolbar to format text, add links, lists, quotes, and code.</p>
+        <%= f.rich_text_area :body %>
+      </section>
+
+      <section class="tab-panel">
+        <h2>SEO</h2>
+        <div class="form-row">
+          <%= f.label :excerpt, "Excerpt" %>
+          <%= f.text_area :excerpt, rows: 4, placeholder: "Short summary shown on the homepage and previews." %>
+        </div>
+
+        <p class="small">
+          Next upgrades (when you want): meta title, meta description, tags/categories, canonical URL, featured image.
+        </p>
+      </section>
+
+      <section class="tab-panel">
+        <h2>Settings</h2>
+
+        <div class="form-row">
+          <%= f.label :status, "Status" %>
+          <%= f.select :status, [["Draft", "draft"], ["Published", "published"]] %>
+        </div>
+
+        <div class="form-row">
+          <%= f.label :published_at, "Publish date/time" %>
+          <%= f.datetime_local_field :published_at %>
+          <div class="small">If you set status to Published and leave this blank, it will auto-fill on save.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit "Save Post", class: "btn" %>
+    <%= link_to "Cancel", root_path, class: "btn" %>
   </div>
 <% end %>

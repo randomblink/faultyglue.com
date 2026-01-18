@@ -1,16 +1,41 @@
-<p style="color: green"><%= notice %></p>
+<!-- /Volumes/Storage/Projects/faultyglue.com/app/views/posts/index.html.erb -->
+<h1>Blog</h1>
+<p>Oldest posts first.</p>
 
-<% content_for :title, "FaultyGlue" %>
+<% if @posts.any? %>
+  <div class="post-list">
+    <% @posts.each do |post| %>
+      <article class="post-card">
+        <header class="post-card__header">
+          <h2 class="post-card__title">
+            <%= link_to post.title.to_s, post_path(post) %>
+          </h2>
 
-<h1>FaultyGlue Blog</h1>
+          <div class="post-card__meta">
+            <span><strong>Status:</strong> <%= post.status %></span>
+            <span class="dot">•</span>
+            <span><strong>Created:</strong> <%= post.created_at.strftime("%B %d, %Y") %></span>
+            <% if post.published_at.present? %>
+              <span class="dot">•</span>
+              <span><strong>Published:</strong> <%= post.published_at.strftime("%B %d, %Y") %></span>
+            <% end %>
+          </div>
+        </header>
 
-<div id="posts">
-  <% @posts.each do |post| %>
-    <%= render post %>
-    <p>
-      <%= link_to "Show this post", post %>
-    </p>
-  <% end %>
-</div>
+        <% if post.excerpt.present? %>
+          <p class="post-card__excerpt"><%= post.excerpt %></p>
+        <% elsif post.body.present? %>
+          <p class="post-card__excerpt"><%= truncate(strip_tags(post.body.to_s), length: 220) %></p>
+        <% end %>
 
-<%= link_to "New post", new_post_path %>
+        <div class="post-card__actions">
+          <%= link_to "Read", post_path(post), class: "btn" %>
+          <%= link_to "Edit", edit_post_path(post), class: "btn" %>
+        </div>
+      </article>
+    <% end %>
+  </div>
+<% else %>
+  <p>No blog posts yet.</p>
+  <p><%= link_to "Create the first post", new_post_path, class: "btn" %></p>
+<% end %>

@@ -1,16 +1,23 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
-  get "pages/home"
-  root "pages#home"
+  # Home page = Blog index (oldest first will be handled in PostsController#index)
+  root "posts#index"
+
+  # Simple static pages
   get "/about",   to: "pages#about",   as: :about
   get "/contact", to: "pages#contact", as: :contact
 
-  get "pages/about"
-  get "pages/contact"
-  # Password reset (minimal)
+  # Convenience route (optional)
+  get "/blog", to: "posts#index", as: :blog
+
+  # Authentication
+  resource :session, only: %i[new create show edit update destroy]
+
+  # Password reset (minimal placeholder)
   get  "/password/new", to: "passwords#new",    as: :new_password
   post "/password",     to: "passwords#create", as: :password
-  resource :session
+
+  # Posts (pretty URLs by slug)
   resources :posts, param: :slug
-  get "/blog", to: "posts#index"
-  # root "posts#index"
 end

@@ -1,10 +1,29 @@
-<p style="color: green"><%= notice %></p>
+<!-- /Volumes/Storage/Projects/faultyglue.com/app/views/posts/show.html.erb -->
+<header class="post-show__header">
+  <h1><%= @post.title %></h1>
 
-<%= render @post %>
+  <div class="post-show__meta">
+    <span><strong>Status:</strong> <%= @post.status %></span>
+    <span class="dot">•</span>
+    <span><strong>Created:</strong> <%= @post.created_at.strftime("%B %d, %Y") %></span>
+    <% if @post.published_at.present? %>
+      <span class="dot">•</span>
+      <span><strong>Published:</strong> <%= @post.published_at.strftime("%B %d, %Y") %></span>
+    <% end %>
+  </div>
 
-<div>
-  <%= link_to "Edit this post", edit_post_path(@post) %> |
-  <%= link_to "Back to posts", posts_path %>
+  <% if @post.excerpt.present? %>
+    <p class="post-show__excerpt"><%= @post.excerpt %></p>
+  <% end %>
 
-  <%= button_to "Destroy this post", @post, method: :delete %>
+  <div class="post-show__actions">
+    <%= link_to "Back", root_path, class: "btn" %>
+    <%= link_to "Edit", edit_post_path(@post), class: "btn" %>
+  </div>
+</header>
+
+<hr>
+
+<div class="post-body trix-content">
+  <%= @post.body %>
 </div>
