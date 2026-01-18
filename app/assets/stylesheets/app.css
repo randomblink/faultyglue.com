@@ -1,0 +1,297 @@
+/*
+ *= require_self
+ */
+
+/* -------------------------------------------------
+   faultyglue.com — “stack of papers, glued poorly”
+   CSS-only look: paper layers, rough edges, wiggles
+   ------------------------------------------------- */
+
+:root {
+  --bg: #0d0f12;
+
+  --paper: #f4f1e8;
+  --paper-ink: #1c1c1c;
+  --paper-muted: rgba(28, 28, 28, 0.65);
+
+  --shadow: rgba(0, 0, 0, 0.30);
+  --shadow-soft: rgba(0, 0, 0, 0.18);
+
+  --glue-1: rgba(255, 214, 120, 0.70);
+  --glue-2: rgba(255, 158, 130, 0.55);
+  --tape: rgba(245, 245, 245, 0.65);
+
+  --link: #1f5eff;
+  --link-hover: #153fae;
+
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background:
+    radial-gradient(1200px 600px at 20% 10%, rgba(255,255,255,0.06), transparent 60%),
+    radial-gradient(900px 500px at 80% 25%, rgba(255,255,255,0.04), transparent 60%),
+    linear-gradient(180deg, #0b0d10, #0d0f12);
+  color: var(--paper-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+/* Layout */
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 18px;
+}
+
+/* Top nav as a “label strip” */
+.nav {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 18px 0 14px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+}
+
+.nav .left, .nav .right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-weight: 900;
+  letter-spacing: 0.2px;
+  color: rgba(255,255,255,0.92);
+}
+
+.nav a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+}
+.nav a:hover {
+  border-color: rgba(255,255,255,0.20);
+  background: rgba(255,255,255,0.05);
+}
+
+/* Paper Stack Card */
+.paper-stack {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+/* The “extra sheets” behind */
+.paper-stack::before,
+.paper-stack::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: 0 22px 40px var(--shadow-soft);
+  z-index: 0;
+}
+
+.paper-stack::before {
+  transform: translate(10px, 10px) rotate(1.3deg);
+  filter: brightness(0.98);
+  opacity: 0.95;
+}
+
+.paper-stack::after {
+  transform: translate(-12px, 14px) rotate(-1.1deg);
+  filter: brightness(0.97);
+  opacity: 0.92;
+}
+
+/* The main top sheet */
+.paper {
+  position: relative;
+  z-index: 1;
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: 0 24px 55px var(--shadow);
+  overflow: hidden;
+}
+
+/* Rough / imperfect edges (CSS-only illusion) */
+.paper::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  background:
+    radial-gradient(18px 8px at 12% 2%, rgba(0,0,0,0.12), transparent 60%),
+    radial-gradient(22px 10px at 38% 1%, rgba(0,0,0,0.10), transparent 60%),
+    radial-gradient(16px 8px at 62% 2%, rgba(0,0,0,0.12), transparent 60%),
+    radial-gradient(20px 9px at 86% 1%, rgba(0,0,0,0.10), transparent 60%),
+
+    radial-gradient(18px 10px at 2% 22%, rgba(0,0,0,0.10), transparent 65%),
+    radial-gradient(16px 8px at 1% 55%, rgba(0,0,0,0.09), transparent 65%),
+    radial-gradient(20px 9px at 2% 80%, rgba(0,0,0,0.10), transparent 65%),
+
+    radial-gradient(18px 10px at 98% 26%, rgba(0,0,0,0.10), transparent 65%),
+    radial-gradient(16px 8px at 99% 56%, rgba(0,0,0,0.09), transparent 65%),
+    radial-gradient(20px 9px at 98% 82%, rgba(0,0,0,0.10), transparent 65%);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+}
+
+/* Glue blobs / tape strips */
+.paper .glue {
+  position: absolute;
+  inset: auto;
+  width: 180px;
+  height: 60px;
+  border-radius: 40px;
+  filter: blur(0.2px);
+  opacity: 0.8;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+.paper .glue.g1 {
+  top: 14px;
+  right: 18px;
+  background: radial-gradient(circle at 30% 40%, var(--glue-1), transparent 68%),
+              radial-gradient(circle at 70% 60%, var(--glue-2), transparent 72%);
+  transform: rotate(8deg);
+}
+.paper .glue.g2 {
+  bottom: 18px;
+  left: 22px;
+  width: 220px;
+  height: 70px;
+  background: radial-gradient(circle at 35% 40%, var(--glue-2), transparent 68%),
+              radial-gradient(circle at 75% 55%, var(--glue-1), transparent 72%);
+  transform: rotate(-6deg);
+}
+
+.paper .tape {
+  position: absolute;
+  top: 18px;
+  left: 24px;
+  width: 120px;
+  height: 30px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.78), var(--tape));
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 8px;
+  transform: rotate(-10deg);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+/* Typography inside paper */
+.paper h1, .paper h2, .paper h3 {
+  margin: 0 0 10px 0;
+  color: var(--paper-ink);
+}
+.paper p {
+  margin: 0 0 12px 0;
+  color: var(--paper-muted);
+}
+.paper a {
+  color: var(--link);
+}
+.paper a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* Flash */
+.flash {
+  border-radius: 14px;
+  padding: 10px 12px;
+  border: 1px dashed rgba(0,0,0,0.25);
+  margin: 12px 0;
+  background: rgba(0,0,0,0.03);
+}
+.flash.notice { border-color: rgba(43,182,115,0.70); }
+.flash.alert  { border-color: rgba(226,75,75,0.75); }
+
+/* Buttons / links styled as “cut-out labels” */
+.btn, input[type="submit"], button {
+  display: inline-block;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.20);
+  background: rgba(255,255,255,0.35);
+  color: var(--paper-ink);
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+  transform: rotate(-0.6deg);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.btn:hover, input[type="submit"]:hover, button:hover {
+  transform: rotate(0.6deg) translateY(-1px);
+  box-shadow: 0 12px 22px rgba(0,0,0,0.22);
+}
+
+/* Tiny “faulty wiggle” — only when hovering or focusing */
+@keyframes wiggle {
+  0%   { transform: rotate(-0.8deg) translate(0, 0); }
+  25%  { transform: rotate(0.9deg) translate(1px, -1px); }
+  50%  { transform: rotate(-0.7deg) translate(-1px, 1px); }
+  75%  { transform: rotate(0.7deg) translate(1px, 0); }
+  100% { transform: rotate(-0.8deg) translate(0, 0); }
+}
+
+a.btn:hover,
+input[type="submit"]:hover,
+button:hover {
+  animation: wiggle 380ms ease-in-out;
+}
+
+/* Subtle page-edge “breathing” wobble (gentle) */
+@keyframes page_wobble {
+  0%   { transform: translate(0,0) rotate(-0.25deg); }
+  50%  { transform: translate(0.8px, -0.6px) rotate(0.22deg); }
+  100% { transform: translate(0,0) rotate(-0.25deg); }
+}
+
+.paper {
+  animation: page_wobble 6.5s ease-in-out infinite;
+  transform-origin: 50% 30%;
+}
+
+/* Forms */
+label { color: var(--paper-muted); }
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.18);
+  background: rgba(255,255,255,0.55);
+  color: var(--paper-ink);
+  outline: none;
+}
+input:focus {
+  border-color: rgba(31,94,255,0.55);
+  box-shadow: 0 0 0 3px rgba(31,94,255,0.12);
+}
+
+/* Accessibility: respect Reduce Motion */
+@media (prefers-reduced-motion: reduce) {
+  .paper { animation: none !important; }
+  a.btn:hover,
+  input[type="submit"]:hover,
+  button:hover { animation: none !important; }
+}
