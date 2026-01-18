@@ -1,10 +1,122 @@
 /*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
+ *= require_self
  */
+
+/* ---- Basic site styling (simple, readable) ---- */
+
+:root {
+  --bg: #0f1115;
+  --panel: #151924;
+  --text: #e9edf5;
+  --muted: rgba(233, 237, 245, 0.72);
+  --border: rgba(233, 237, 245, 0.14);
+
+  --ok: #2bb673;
+  --bad: #e24b4b;
+
+  --link: #7aa2ff;
+  --link-hover: #a4beff;
+
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+a:hover { color: var(--link-hover); text-decoration: underline; }
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 18px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+
+.nav {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.nav .left, .nav .right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.small { font-size: 0.92rem; color: var(--muted); }
+
+h1 { margin: 0 0 10px 0; font-size: 2rem; }
+p  { margin: 0 0 12px 0; color: var(--muted); }
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 16px 0;
+}
+
+/* Forms */
+label { color: var(--muted); }
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  outline: none;
+}
+input:focus {
+  border-color: rgba(122,162,255,0.6);
+}
+
+button,
+input[type="submit"] {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(233,237,245,0.22);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  cursor: pointer;
+}
+button:hover,
+input[type="submit"]:hover {
+  background: rgba(255,255,255,0.10);
+}
+
+/* Flash messages */
+.flash {
+  border-radius: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  margin: 12px 0;
+}
+.flash.notice { border-color: rgba(43,182,115,0.6); }
+.flash.alert  { border-color: rgba(226,75,75,0.7); }

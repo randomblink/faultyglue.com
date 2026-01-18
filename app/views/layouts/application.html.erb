@@ -24,6 +24,33 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="wrap">
+      <div class="nav">
+        <div class="left">
+          <div class="brand"><%= link_to "faultyglue.com", root_path %></div>
+          <div class="small">basic site</div>
+        </div>
+
+        <div class="right">
+          <%= link_to "Home", root_path %>
+          <%= link_to "About", about_path %>
+          <%= link_to "Contact", contact_path %>
+          <%= link_to "Sign in", new_session_path %>
+          <%= link_to "Reset password", new_password_path %>
+        </div>
+      </div>
+
+      <% if flash[:notice] %>
+        <div class="flash notice"><%= flash[:notice] %></div>
+      <% end %>
+
+      <% if flash[:alert] %>
+        <div class="flash alert"><%= flash[:alert] %></div>
+      <% end %>
+
+      <div class="card">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>
