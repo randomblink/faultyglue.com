@@ -1,11 +1,42 @@
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
+<%# /Volumes/Storage/Projects/faultyglue.com/app/views/sessions/new.html.erb %>
 
-<%= form_with url: session_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
-  <%= form.submit "Sign in" %>
+<% if flash[:notice] %>
+  <p style="padding:10px;border:1px solid #2b7;border-radius:8px;margin: 12px 0;">
+    <%= flash[:notice] %>
+  </p>
 <% end %>
-<br>
 
-<%= link_to "Forgot password?", new_password_path %>
+<% if flash[:alert] %>
+  <p style="padding:10px;border:1px solid #c33;border-radius:8px;margin: 12px 0;">
+    <%= flash[:alert] %>
+  </p>
+<% end %>
+
+<div style="max-width: 420px; margin: 30px auto; padding: 18px; border: 1px solid #ddd; border-radius: 12px;">
+  <h1 style="margin: 0 0 8px 0;">Sign in</h1>
+  <p style="margin: 0 0 16px 0; opacity: 0.8;">
+    Use your email address and password.
+  </p>
+
+  <%= form_with url: session_path, method: :post, data: { turbo: false } do %>
+    <div style="margin: 12px 0;">
+      <%= label_tag :email_address, "Email", style: "display:block; margin-bottom:6px;" %>
+      <%= email_field_tag :email_address, params[:email_address], required: true, autofocus: true, autocomplete: "email", style: "width:100%; padding:10px; border:1px solid #ccc; border-radius:10px;" %>
+    </div>
+
+    <div style="margin: 12px 0;">
+      <%= label_tag :password, "Password", style: "display:block; margin-bottom:6px;" %>
+      <%= password_field_tag :password, nil, required: true, autocomplete: "current-password", style: "width:100%; padding:10px; border:1px solid #ccc; border-radius:10px;" %>
+    </div>
+
+    <div style="margin: 14px 0;">
+      <%= submit_tag "Sign in", style: "width:100%; padding:10px; border:1px solid #999; border-radius:10px; cursor:pointer;" %>
+    </div>
+  <% end %>
+
+  <hr style="margin: 16px 0;">
+
+  <p style="margin: 0;">
+    <%= link_to "Forgot password?", new_password_path %>
+  </p>
+</div>
