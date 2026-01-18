@@ -12,12 +12,16 @@
           </h2>
 
           <div class="post-card__meta">
-            <span><strong>Status:</strong> <%= post.status %></span>
-            <span class="dot">•</span>
+            <%# Readers can see dates; status is useful to you, but optional to show publicly %>
             <span><strong>Created:</strong> <%= post.created_at.strftime("%B %d, %Y") %></span>
             <% if post.published_at.present? %>
               <span class="dot">•</span>
               <span><strong>Published:</strong> <%= post.published_at.strftime("%B %d, %Y") %></span>
+            <% end %>
+
+            <% if authenticated? %>
+              <span class="dot">•</span>
+              <span><strong>Status:</strong> <%= post.status %></span>
             <% end %>
           </div>
         </header>
@@ -30,12 +34,17 @@
 
         <div class="post-card__actions">
           <%= link_to "Read", post_path(post), class: "btn" %>
-          <%= link_to "Edit", edit_post_path(post), class: "btn" %>
+          <% if authenticated? %>
+            <%= link_to "Edit", edit_post_path(post), class: "btn" %>
+          <% end %>
         </div>
       </article>
     <% end %>
   </div>
 <% else %>
   <p>No blog posts yet.</p>
-  <p><%= link_to "Create the first post", new_post_path, class: "btn" %></p>
+
+  <% if authenticated? %>
+    <p><%= link_to "Create the first post", new_post_path, class: "btn" %></p>
+  <% end %>
 <% end %>

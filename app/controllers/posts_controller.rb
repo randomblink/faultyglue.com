@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
-  # Anyone can read the blog; only authenticated users can create/edit.
+  # Public can read the blog:
   allow_unauthenticated_access only: %i[index show]
 
   before_action :set_post, only: %i[show edit update destroy]
@@ -25,9 +25,8 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
 
-    if publishing_now?(@post)
-      @post.published_at ||= Time.current
-    end
+    # Auto-set published_at when publishing (optional convenience)
+    @post.published_at ||= Time.current if @post.status == "published"
 
     if @post.save
       redirect_to post_path(@post), notice: "Post created."
@@ -40,9 +39,8 @@ class PostsController < ApplicationController
   def update
     @post.assign_attributes(post_params)
 
-    if publishing_now?(@post)
-      @post.published_at ||= Time.current
-    end
+    # Auto-set published_at when publishing (optional convenience)
+    @post.published_at ||= Time.current if @post.status == "published"
 
     if @post.save
       redirect_to post_path(@post), notice: "Post updated."
@@ -73,9 +71,4 @@ class PostsController < ApplicationController
       :body
     )
   end
-
-  def publishing_now?(post)
-    post.status == "published"
-  end
 end
-
