@@ -28,7 +28,6 @@
       <div class="nav">
         <div class="left">
           <div class="brand"><%= link_to "faultyglue.com", root_path %></div>
-          <div class="small">basic site</div>
         </div>
 
         <div class="right">
@@ -48,8 +47,14 @@
         <div class="flash alert"><%= flash[:alert] %></div>
       <% end %>
 
-      <div class="card">
-        <%= yield %>
+      <div class="paper-stack">
+        <div class="paper">
+          <div class="tape"></div>
+          <div class="glue g1"></div>
+          <div class="glue g2"></div>
+
+          <%= yield %>
+        </div>
       </div>
     </div>
   </body>
